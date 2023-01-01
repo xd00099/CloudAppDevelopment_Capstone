@@ -105,10 +105,12 @@ def get_dealerships(request):
 # Create a `get_dealer_details` view to render the reviews of a dealer
 def get_dealer_details(request, dealer_id):
     if request.method == "GET":
-        url = f"https://us-south.functions.appdomain.cloud/api/v1/web/fbda589a-0b4e-4082-99db-b9acbf92f3b8/dealership-package/get-review?dealerId={dealer_id}"
+        url1 = f"https://us-south.functions.appdomain.cloud/api/v1/web/fbda589a-0b4e-4082-99db-b9acbf92f3b8/dealership-package/get-review?dealerId={dealer_id}"
+        url2 = f"https://us-south.functions.appdomain.cloud/api/v1/web/fbda589a-0b4e-4082-99db-b9acbf92f3b8/dealership-package/get-dealership?dealerId={dealer_id}"
         # Get dealers from the URL
         context = {
-            "reviews": get_dealer_by_id_from_cf(url, dealer_id=dealer_id),
+            "reviews": get_dealer_by_id_from_cf(url1, dealer_id=dealer_id),
+            "dealer": get_dealers_from_cf(url2)
         }
         return render(request, 'djangoapp/dealer_details.html', context)
 
@@ -119,9 +121,8 @@ def add_review(request, dealer_id):
         # Get dealers from the URL
         context = {
             "cars": CarModel.objects.all(),
-            "dealer": get_dealers_from_cf(url)[0],
+            "dealer": get_dealers_from_cf(url),
         }
-        print(context)
         return render(request, 'djangoapp/add_review.html', context)
 
     if request.method == "POST":
@@ -130,10 +131,11 @@ def add_review(request, dealer_id):
             "name": f"{request.user.first_name} {request.user.last_name}",
             "dealership": dealer_id,
             "review": form["content"],
-            "purchase": form.get("purchasecheck"),
+            "purchase": True if form.get("purchasecheck") else False,
+            "id": dealer_id
             }
         if form.get("purchasecheck"):
-            review["purchasedate"] = datetime.strptime(form.get("purchasedate"), "%m/%d/%Y").isoformat()
+            review["purchase_date"] = form.get("purchasedate")
             car = CarModel.objects.get(pk=form["car"])
             review["car_make"] = car.car_make.name
             review["car_model"] = car.name

@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </head>
     <body>
+    
     <!--Add review form here -->
     <div class="container">
-        <form action="/djangoapp/dealer/{{dealer.id}}/add_review" method="post">
+        <h2>Add a Review about <strong>{{ dealer.0.full_name }}</strong></h2>
+        <form action="/djangoapp/dealer/{{dealer.0.id}}/add_review" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="content">Enter the review content:</label>
@@ -21,7 +23,7 @@
             </div>
             <div class="form-group form-check">
                 <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck">
-                <label for="purchasecheck">Has purchased the car from {{dealer.full_name}}? (select purchased car
+                <label for="purchasecheck">Has purchased the car from {{dealer.0.full_name}}? (select purchased car
                     information below if checked)</label>
             </div>
             <div class="form-group">
@@ -35,10 +37,12 @@
             </div>
             <div class="form-group" data-provide="datepicker">
                 <label for="purchasedate">Select your purchase date:</label>
-                <input class="form-control" type="text" name="purchasedate" id="purchasedate">
+                <input class="date-own form-control" type="text" name="purchasedate" id="purchasedate">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        
     </div>
-    </body>
+</body>
+
 </html>

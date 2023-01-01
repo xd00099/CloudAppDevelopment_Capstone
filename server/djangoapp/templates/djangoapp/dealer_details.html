@@ -40,11 +40,12 @@
         </div>
     </nav>
 
+    <h2>Reviews for <strong>{{ dealer.0.full_name }}</strong></h2>
     <!-- reviews as cards -->
     <div class="card-columns">
         {% for review in reviews %}
             <div class="card">
-                <img class="card-img-left" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" alt="Card image cap">
+                <img class="rounded-circle" style="width: 50px; height: 50px" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" alt="Card image cap">
                 <div class="card-header">Reviewer: {{review.name}}</div>
                 <div class="card-body">
                     <h5 class="card-title">{{ review.car_make }}, {{ review.car_model }}</h5>
